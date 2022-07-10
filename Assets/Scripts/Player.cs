@@ -10,6 +10,11 @@ public class Player : MonoBehaviour
 
     public GameObject Camera;
 
+    [SerializeField]
+    private Camera Cam;
+
+    public GameObject Crosshair;
+
 
     [SerializeField]
     private float speed;
@@ -25,6 +30,8 @@ public class Player : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        Cursor.visible = false;
     }
 
     private void FixedUpdate()
@@ -37,6 +44,7 @@ public class Player : MonoBehaviour
 
         Camera.transform.position = transform.position - new Vector3(0, 0, 10);
 
-
-    }       
+        Crosshair.transform.position = Cam.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 10);
+    }
+    
 }
