@@ -15,12 +15,24 @@ public class Player : MonoBehaviour
 
     public GameObject Crosshair;
 
+    private bool isWalking = true;
 
     [SerializeField]
     private float speed;
 
+    [HideInInspector]
+    public StaminaController _staminaController;
+
+    public void SetRunSpeed(float speed)
+    {
+        this.speed = speed;
+    }
+
+
     private void Start()
     {
+        _staminaController = GetComponent<StaminaController>();
+
         if (instance == null)
         {
             instance = this;
@@ -36,6 +48,26 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        isWalking = !Input.GetKey(KeyCode.LeftShift);
+
+        if(isWalking)
+        {
+            _staminaController.isSprinting = false;
+        }
+
+        if(!isWalking)
+        {
+            if(_staminaController.playerStamina > 0)
+            {
+                _staminaController.isSprinting = true;
+                _staminaController.Sprinting();
+            }
+            else
+            {
+                isWalking = true;
+            }
+        }
+
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
         move = new Vector2(x, y).normalized;
