@@ -20,12 +20,15 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float speed;
 
+    [SerializeField]
+    private float runSpeed;
+
     [HideInInspector]
     public StaminaController _staminaController;
 
-    public void SetRunSpeed(float speed)
+    public void SetRunSpeed(float s)
     {
-        this.speed = speed;
+        s = speed;
     }
 
 
@@ -48,11 +51,17 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        float x = Input.GetAxisRaw("Horizontal");
+        float y = Input.GetAxisRaw("Vertical");
+        move = new Vector2(x, y).normalized;
+
+
         isWalking = !Input.GetKey(KeyCode.LeftShift);
 
         if(isWalking)
         {
             _staminaController.isSprinting = false;
+            
         }
 
         if(!isWalking)
@@ -68,9 +77,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        float x = Input.GetAxisRaw("Horizontal");
-        float y = Input.GetAxisRaw("Vertical");
-        move = new Vector2(x, y).normalized;
+
 
         transform.Translate(move * speed * Time.fixedDeltaTime);
 
