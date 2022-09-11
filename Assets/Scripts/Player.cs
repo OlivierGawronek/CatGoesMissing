@@ -64,8 +64,15 @@ public class Player : MonoBehaviour
         Crosshair.transform.position = Cam.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 10);
 
         Vector3 mousePosition = Cam.ScreenToWorldPoint(Input.mousePosition);
+
     }
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Shooting.instance.Shoot();
+        }
+    }
 
-    
 }
