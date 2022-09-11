@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
 
     private Vector2 move;
 
+    public float health;
+
     public GameObject Camera;
 
     [SerializeField]
@@ -23,8 +25,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float runSpeed;
 
-    [HideInInspector]
-    public StaminaController _staminaController;
 
     public void SetRunSpeed(float s)
     {
@@ -34,7 +34,6 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        _staminaController = GetComponent<StaminaController>();
 
         if (instance == null)
         {
@@ -58,32 +57,15 @@ public class Player : MonoBehaviour
 
         isWalking = !Input.GetKey(KeyCode.LeftShift);
 
-        if(isWalking)
-        {
-            _staminaController.isSprinting = false;
-            
-        }
-
-        if(!isWalking)
-        {
-            if(_staminaController.playerStamina > 0)
-            {
-                _staminaController.isSprinting = true;
-                _staminaController.Sprinting();
-            }
-            else
-            {
-                isWalking = true;
-            }
-        }
-
-
-
         transform.Translate(move * speed * Time.fixedDeltaTime);
 
         Camera.transform.position = transform.position - new Vector3(0, 0, 10);
 
         Crosshair.transform.position = Cam.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 10);
+
+        Vector3 mousePosition = Cam.ScreenToWorldPoint(Input.mousePosition);
     }
+
+
     
 }
